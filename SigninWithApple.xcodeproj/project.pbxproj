@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E06F3AFA23115FC30095349B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06F3AF923115FC30095349B /* AppDelegate.swift */; };
 		E06F3AFC23115FC30095349B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06F3AFB23115FC30095349B /* SceneDelegate.swift */; };
-		E06F3AFE23115FC30095349B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06F3AFD23115FC30095349B /* ViewController.swift */; };
+		E06F3AFE23115FC30095349B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06F3AFD23115FC30095349B /* LoginViewController.swift */; };
 		E06F3B0123115FC30095349B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E06F3AFF23115FC30095349B /* Main.storyboard */; };
 		E06F3B0323115FC40095349B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06F3B0223115FC40095349B /* Assets.xcassets */; };
 		E06F3B0623115FC40095349B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E06F3B0423115FC40095349B /* LaunchScreen.storyboard */; };
@@ -19,11 +19,12 @@
 		E06F3AF623115FC30095349B /* SigninWithApple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SigninWithApple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E06F3AF923115FC30095349B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E06F3AFB23115FC30095349B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E06F3AFD23115FC30095349B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E06F3AFD23115FC30095349B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E06F3B0023115FC30095349B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E06F3B0223115FC40095349B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E06F3B0523115FC40095349B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E06F3B0723115FC40095349B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0A5737423116E5F001ED782 /* SigninWithApple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SigninWithApple.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +57,10 @@
 		E06F3AF823115FC30095349B /* SigninWithApple */ = {
 			isa = PBXGroup;
 			children = (
+				E0A5737423116E5F001ED782 /* SigninWithApple.entitlements */,
 				E06F3AF923115FC30095349B /* AppDelegate.swift */,
 				E06F3AFB23115FC30095349B /* SceneDelegate.swift */,
-				E06F3AFD23115FC30095349B /* ViewController.swift */,
+				E06F3AFD23115FC30095349B /* LoginViewController.swift */,
 				E06F3AFF23115FC30095349B /* Main.storyboard */,
 				E06F3B0223115FC40095349B /* Assets.xcassets */,
 				E06F3B0423115FC40095349B /* LaunchScreen.storyboard */,
@@ -99,6 +101,11 @@
 				TargetAttributes = {
 					E06F3AF523115FC30095349B = {
 						CreatedOnToolsVersion = 11.0;
+						SystemCapabilities = {
+							com.apple.DataProtection = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -138,7 +145,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E06F3AFE23115FC30095349B /* ViewController.swift in Sources */,
+				E06F3AFE23115FC30095349B /* LoginViewController.swift in Sources */,
 				E06F3AFA23115FC30095349B /* AppDelegate.swift in Sources */,
 				E06F3AFC23115FC30095349B /* SceneDelegate.swift in Sources */,
 			);
@@ -284,6 +291,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SigninWithApple/SigninWithApple.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 76SWNMLHBD;
 				INFOPLIST_FILE = SigninWithApple/Info.plist;
@@ -293,6 +302,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skeletonwalk.SigninWithApple;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -302,6 +312,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SigninWithApple/SigninWithApple.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 76SWNMLHBD;
 				INFOPLIST_FILE = SigninWithApple/Info.plist;
@@ -311,6 +323,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skeletonwalk.SigninWithApple;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
