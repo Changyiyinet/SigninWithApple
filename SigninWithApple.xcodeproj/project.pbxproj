@@ -14,6 +14,7 @@
 		E06F3B0123115FC30095349B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E06F3AFF23115FC30095349B /* Main.storyboard */; };
 		E06F3B0323115FC40095349B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E06F3B0223115FC40095349B /* Assets.xcassets */; };
 		E06F3B0623115FC40095349B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E06F3B0423115FC40095349B /* LaunchScreen.storyboard */; };
+		E08EF8DB2345E0AC0038EA44 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08EF8DA2345E0AC0038EA44 /* KeychainManager.swift */; };
 		E0FFA0752341D98500E8B780 /* Requester.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FFA0742341D98500E8B780 /* Requester.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		E06F3B0223115FC40095349B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E06F3B0523115FC40095349B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E06F3B0723115FC40095349B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E08EF8DA2345E0AC0038EA44 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		E0A5737423116E5F001ED782 /* SigninWithApple.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SigninWithApple.entitlements; sourceTree = "<group>"; };
 		E0FFA0742341D98500E8B780 /* Requester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requester.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,17 +64,26 @@
 			isa = PBXGroup;
 			children = (
 				E0A5737423116E5F001ED782 /* SigninWithApple.entitlements */,
+				E08EF8DC2345EAD50038EA44 /* Helper */,
 				E06F3AF923115FC30095349B /* AppDelegate.swift */,
-				E06F3AFB23115FC30095349B /* SceneDelegate.swift */,
 				E06F3AFD23115FC30095349B /* LoginViewController.swift */,
 				E06F3AFF23115FC30095349B /* Main.storyboard */,
 				E06F3B0223115FC40095349B /* Assets.xcassets */,
-				E06F3B0423115FC40095349B /* LaunchScreen.storyboard */,
 				E06F3B0723115FC40095349B /* Info.plist */,
-				E0FFA0742341D98500E8B780 /* Requester.swift */,
 				E046FD0D234554E8002B4975 /* HomeViewController.swift */,
 			);
 			path = SigninWithApple;
+			sourceTree = "<group>";
+		};
+		E08EF8DC2345EAD50038EA44 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				E06F3B0423115FC40095349B /* LaunchScreen.storyboard */,
+				E06F3AFB23115FC30095349B /* SceneDelegate.swift */,
+				E0FFA0742341D98500E8B780 /* Requester.swift */,
+				E08EF8DA2345E0AC0038EA44 /* KeychainManager.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +165,7 @@
 				E046FD0E234554E8002B4975 /* HomeViewController.swift in Sources */,
 				E06F3AFE23115FC30095349B /* LoginViewController.swift in Sources */,
 				E06F3AFA23115FC30095349B /* AppDelegate.swift in Sources */,
+				E08EF8DB2345E0AC0038EA44 /* KeychainManager.swift in Sources */,
 				E0FFA0752341D98500E8B780 /* Requester.swift in Sources */,
 				E06F3AFC23115FC30095349B /* SceneDelegate.swift in Sources */,
 			);

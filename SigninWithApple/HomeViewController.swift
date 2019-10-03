@@ -7,24 +7,44 @@
 //
 
 import UIKit
+import AuthenticationServices
 
 class HomeViewController: UIViewController {
-
+    
+    @IBOutlet weak var logoutButton: UIButton!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
+    private var credentialRevokedNotification: NSObjectProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupCredentialRevokedNotification()
+    }
+    @IBAction func logoutTapped(_ sender: Any) {
+        signOut()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupCredentialRevokedNotification() {
+        let name = ASAuthorizationAppleIDProvider.credentialRevokedNotification
+        credentialRevokedNotification =
+            NotificationCenter.default
+                .addObserver(forName: name, object: nil, queue: nil) { [weak self] (notification) in
+                    print("revoked: \(notification)")
+                    self?.signOut()
+        }
     }
-    */
-
+    
+    private func signOut() {
+        KeychainManager.removeAllUserCredential()
+        presentLoginScreen()
+    }
+    
+    private func presentLoginScreen() {
+        DispatchQueue.main.async { [weak self] in
+            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+            guard let viewController =
+                storyboard.instantiateViewController(
+                    withIdentifier: "LoginScreen") as? LoginViewController else { return }
+            self?.view.window?.rootViewController = viewController
+        }
+    }
 }

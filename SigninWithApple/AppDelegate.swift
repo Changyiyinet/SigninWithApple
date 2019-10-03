@@ -21,21 +21,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func checkUserCredentialState() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
-        appleIDProvider.getCredentialState(forUserID: "currentUserFromKeychain") { (credentialState, error) in
-            switch credentialState {
-            case .authorized: break
-            case .revoked: break
-            case .notFound:
-                DispatchQueue.main.async {
-                    let storyboard = UIStoryboard(name: "Main", bundle: .main)
-                    guard let viewController =
-                        storyboard.instantiateViewController(
-                            withIdentifier: "LoginViewController") as? LoginViewController else { return }
-                    UIApplication.shared.keyWindow?.rootViewController?.present(viewController, animated: true, completion: nil)
-                }
-            default:
-                break
+        appleIDProvider.getCredentialState(forUserID: KeychainManager.currentUserIdentifier ?? "") { [weak self] (credentialState, error) in
+            print(KeychainManager.currentUserIdentifier)
+            if let error = error { print("##" + error.localizedDescription) }
+            else {
+                self?.handleCredentialState(credentialState)
             }
+        }
+    }
+    
+    private func handleCredentialState(_ credentialState: ASAuthorizationAppleIDProvider.CredentialState) {
+        switch credentialState {
+        case .authorized: openHome()
+        case .revoked, .notFound: openLogin()
+        default:break
+        }
+    }
+
+    private func openLogin() {
+        DispatchQueue.main.async {
+            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+            guard let viewController =
+                storyboard.instantiateViewController(
+                    withIdentifier: "LoginScreen") as? LoginViewController else { return }
+            UIApplication.shared.keyWindow?.rootViewController = viewController
+        }
+    }
+    
+    private func openHome() {
+        DispatchQueue.main.async {
+            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+            guard let viewController =
+                storyboard.instantiateViewController(
+                    withIdentifier: "HomeScreen") as? HomeViewController else { return }
+            UIApplication.shared.keyWindow?.rootViewController = viewController
         }
     }
 }

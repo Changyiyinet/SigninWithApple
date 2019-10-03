@@ -17,12 +17,12 @@ class LoginViewController: UIViewController {
     }
 
     @IBOutlet weak var buttonContainer: UIStackView!
-    let requester = Requester()
+    
+    private let requester = Requester()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appleButton = createAppleButton()
-        buttonContainer.addArrangedSubview(appleButton)
+        buttonContainer.addArrangedSubview(createAppleButton())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -31,11 +31,19 @@ class LoginViewController: UIViewController {
     }
     
     private func createAppleButton() -> ASAuthorizationAppleIDButton {
-        let button = ASAuthorizationAppleIDButton()
-        button.addTarget(self, action: #selector(appleSigninButtonTapped),
-                         for: .touchUpInside)
+        let isDarkTheme = view.traitCollection.userInterfaceStyle == .dark
+        let style: ASAuthorizationAppleIDButton.Style = isDarkTheme ? .white : .black
+        let type = buttonType()
+        let button = ASAuthorizationAppleIDButton(type: type, style: style)
+        button.addTarget(self, action: #selector(appleSigninButtonTapped), for: .touchUpInside)
         button.frame(forAlignmentRect: buttonContainer.frame)
+        
         return button
+    }
+    
+    private func buttonType() -> ASAuthorizationAppleIDButton.ButtonType {
+        guard let isLoggedIn = KeychainManager.currentUserIdentifier else { return .signIn }
+        return isLoggedIn.isEmpty ? .signIn : .continue
     }
     
     @objc
@@ -43,16 +51,17 @@ class LoginViewController: UIViewController {
         let request = ASAuthorizationAppleIDProvider().createRequest()
         request.requestedScopes = [.fullName, .email]
         
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        controller.delegate = self
-        controller.presentationContextProvider = self
-        controller.performRequests()
+        performAuthorization(requests: [request])
     }
     
     func performExistingAccountSetupFlows() {
         let requests = [ASAuthorizationAppleIDProvider().createRequest(),
                         ASAuthorizationPasswordProvider().createRequest()]
         
+        performAuthorization(requests: requests)
+    }
+    
+    private func performAuthorization(requests: [ASAuthorizationRequest]) {
         let authorizationController = ASAuthorizationController(authorizationRequests: requests)
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
@@ -69,15 +78,39 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController,
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            printCredential(appleCredential)
-            requestToServer(code: appleCredential.authorizationCode,
-                            token: appleCredential.identityToken)
+            handleAppleCredential(appleCredential)
+//            requestToServer(code: appleCredential.authorizationCode,
+//                            token: appleCredential.identityToken)
         } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
-            let username = passwordCredential.user
-            let password = passwordCredential.password
-            print("==From Keychain==")
-            print("username: \(username)\n password: \(password)")
+            handlePasswordCredential(passwordCredential)
         }
+    }
+    
+    private func handleAppleCredential(_ appleCredential: ASAuthorizationAppleIDCredential) {
+        saveToKeychain(appleCredential)
+        openHome()
+        printCredential(appleCredential)
+    }
+    
+    private func handlePasswordCredential(_ credential: ASPasswordCredential) {
+        let username = credential.user
+        let password = credential.password
+        print("== From Keychain ==")
+        print("username: \(username)\n password: \(password)")
+    }
+    
+    private func openHome() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        guard let viewController = storyboard.instantiateViewController(
+            withIdentifier: "HomeScreen") as? HomeViewController else { return }
+        view.window?.rootViewController = viewController
+    }
+    
+    private func saveToKeychain(_ authCredential: ASAuthorizationAppleIDCredential) {
+        KeychainManager.currentUserIdentifier = authCredential.user
+        KeychainManager.currentUserEmail = authCredential.email
+        KeychainManager.currentUserFirstName = authCredential.fullName?.givenName
+        KeychainManager.currentUserLastName = authCredential.fullName?.familyName
     }
     
     private func requestToServer(code: Data?, token: Data?) {
@@ -97,6 +130,7 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
 extension LoginViewController {
     
     private func printCredential(_ appleCredential: ASAuthorizationAppleIDCredential) {
+        print("===== Credential From Apple ====")
         print("authorization code: \(String(data:appleCredential.authorizationCode!, encoding: .utf8))")
         print("user: " + appleCredential.user)
         print("state: \(appleCredential.state)")
